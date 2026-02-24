@@ -32,9 +32,9 @@ public class PublishMsg extends Message {
 	}
 
 	// TODO:
-	// Implement object variables - a topic and a message is required
+	// Implement object variables - a topic and a message is required X
 
-	// Complete the constructor, get/set-methods, and toString method
+	// Complete the constructor, get/set-methods, and toString method X
 	// as described in the project text
 	
 
