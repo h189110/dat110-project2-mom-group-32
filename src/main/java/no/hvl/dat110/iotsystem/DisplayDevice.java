@@ -12,6 +12,10 @@ public class DisplayDevice {
 	public static void main (String[] args) {
 		
 		System.out.println("Display starting ...");
+
+		Client client = new Client("display", Common.BROKERHOST, Common.BROKERPORT);
+
+
 		
 		// TODO - START
 				
