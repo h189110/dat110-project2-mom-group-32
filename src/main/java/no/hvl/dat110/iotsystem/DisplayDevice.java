@@ -7,23 +7,33 @@ import no.hvl.dat110.common.TODO;
 
 public class DisplayDevice {
 
-    private static final int COUNT = 10;
+	private static final int COUNT = 10;
 
-    public static void main(String[] args) {
+	public static void main (String[] args) {
 
-        System.out.println("Display starting ...");
+		System.out.println("Display starting ...");
 
-        Client broker = new Client("display", Common.BROKERHOST, Common.BROKERPORT);
-        broker.connect();
-        broker.createTopic(Common.TEMPTOPIC);
-        broker.subscribe(Common.TEMPTOPIC);
+		Client client = new Client("display", Common.BROKERHOST, Common.BROKERPORT);
 
-        Message message = broker.receive();
-        System.out.println(message.toString());
+		client.connect();
 
-        broker.unsubscribe(Common.TEMPTOPIC);
-        broker.disconnect();
+		client.createTopic(Common.TEMPTOPIC);
 
-        System.out.println("Display stopping ... ");
-    }
+		client.subscribe(Common.TEMPTOPIC);
+
+		for (int i = 0; i < COUNT; i++) {
+			Message msg = client.receive();
+			if (msg instanceof PublishMsg) {
+				PublishMsg pubMsg = (PublishMsg) msg;
+				System.out.println("DISPLAY: " + pubMsg.getMessage());
+			}
+		}
+
+		client.unsubscribe(Common.TEMPTOPIC);
+
+		client.disconnect();
+
+		System.out.println("Display stopping ... ");
+
+	}
 }
