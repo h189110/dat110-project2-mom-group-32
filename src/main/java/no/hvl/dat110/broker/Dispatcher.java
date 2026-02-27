@@ -108,43 +108,40 @@ public class Dispatcher extends Stopable {
 
 	public void onCreateTopic(CreateTopicMsg msg) {
 
-		String topic = msg.getTopic();
-		storage.createTopic(topic);
+        Logger.log("onCreateTopic:" + msg.toString());
 
-	}
+        storage.createTopic(msg.getTopic());
+    }
 
 	public void onDeleteTopic(DeleteTopicMsg msg) {
 
-		String topic = msg.getTopic();
-		storage.deleteTopic(topic);
-	}
+        Logger.log("onDeleteTopic:" + msg.toString());
+
+        storage.deleteTopic(msg.getTopic());
+    }
 
 	public void onSubscribe(SubscribeMsg msg) {
 
-		String topic = msg.getTopic();
-		storage.addSubscriber(msg.getUser(), topic);
+        Logger.log("onSubscribe:" + msg.toString());
 
-	}
+        storage.addSubscriber(msg.getUser(), msg.getTopic());
+    }
 
 	public void onUnsubscribe(UnsubscribeMsg msg) {
 
-		String topic = msg.getTopic();
-		storage.removeSubscriber(msg.getUser(), topic);
-	}
+        Logger.log("onUnsubscribe:" + msg.toString());
+
+        storage.removeSubscriber(msg.getUser(), msg.getTopic());
+    }
 
 	public void onPublish(PublishMsg msg) {
 
-		String topic = msg.getTopic();
-		Set<String> subscribers = storage.getSubscribers(topic);
+        Logger.log("onPublish:" + msg.toString());
 
-		for (String user : subscribers) {
-			ClientSession session = storage.getSession(user);
-
-			if(session != null) {
-				session.send(msg);
-			}
-
-		}
-
-	}
+        Set<String> subscribers = storage.getSubscribers(msg.getTopic());
+        for (String subscriber : subscribers) {
+            ClientSession session = storage.getSession(subscriber);
+            session.send(msg); //usikker på om ditta e riktig
+        }
+    }
 }

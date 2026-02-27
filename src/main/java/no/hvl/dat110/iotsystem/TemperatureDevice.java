@@ -31,7 +31,7 @@ public class TemperatureDevice {
 		}
 
 		client.disconnect();
-		
+
 
 		System.out.println("Temperature device stopping ... ");
 
